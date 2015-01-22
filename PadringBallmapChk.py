@@ -7,7 +7,7 @@ import string
 import xlrd
 import re
 
-dbg_on = 1
+dbg_on = 0
 
 class ReadInputFile():
     '''
@@ -462,6 +462,32 @@ def bm_to_pr_chk(bmlist, prlist, pplist):
     else:
         return 'Ballmap to Padring check is OK'
 
+def pp_pr_print(pplist, prlist):
+    pp_pr_list={"namelist":[], "loclist":[], "padnumlist":[]}
+
+    for i in range(len(pplist["namelist"])):
+        pp_pr_list["namelist"].append(pplist["namelist"][i])
+        pp_pr_list["loclist"].append(pplist["loclist"][i])
+        padnumlist_i=[]
+        for j in range(len(prlist["padnumlist"])):
+            if pplist["namelist"][i] == prlist['namelist'][j]:
+                padnumlist_i.append(prlist["padnumlist"][j])
+        pp_pr_list["padnumlist"].append(padnumlist_i)
+
+    print('############################################################')
+    print('Begin Pad No. Print Now:')
+    print('############################################################')
+
+    for i in pp_pr_list["namelist"]:
+        print('############################################################')
+        print("Power Pin Name is: %s"%i)
+        index_tmp=pp_pr_list["namelist"].index(i)
+        print("Power Pin Pad No. is: %s"%pp_pr_list["padnumlist"][index_tmp])
+        print('############################################################')
+
+    print('############################################################')
+    print('End Pad No. Print.')
+    print('############################################################')
 
 def printtest():
     '''
@@ -599,6 +625,13 @@ def printtest():
     print('############################################################')
     print(chk_rslt)
     print('############################################################')
+    print('')
+
+    '''
+    do check
+    STEP4, print pad No. of power pins:
+    '''
+    pp_pr_print(pp_area, pr_area);
     print('')
 
 def main():
